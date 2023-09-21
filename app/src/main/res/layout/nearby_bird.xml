@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="15dp"
+        android:layout_margin="8dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/img_nearby"
+                android:layout_width="120dp"
+                android:layout_height="128dp"
+                android:src="@drawable/bird"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:id="@+id/comName_nearby"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Scientific Name"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:textColor="@color/limeGreen"
+                android:layout_toRightOf="@id/img_nearby"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:id="@+id/sciName_nearby"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:text="Scientific Name"
+                android:maxLines="1"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@id/img_nearby"
+                android:layout_below="@id/comName_nearby"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/layout_loc_nearby"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sciName_nearby"
+                android:layout_toRightOf="@id/img_nearby"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                app:cardCornerRadius="50dp">
+                <TextView
+                    android:id="@+id/loc_nearby"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/limeGreen"
+                    android:drawableLeft="@drawable/baseline_location_on_24"
+                    android:drawablePadding="2dp"
+                    android:text="Ditiro st"
+                    android:maxLines="1"
+                    android:padding="2dp"
+                    android:paddingRight="3dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"/>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btn_like_nearby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_loc_nearby"
+                android:layout_toRightOf="@id/img_nearby"
+                android:backgroundTint="#00FFFFFF"
+                android:text="Like"
+                android:textColor="#FF0000"
+                android:textSize="14sp"
+                android:drawableLeft="@drawable/baseline_heart_26"/>
+            <Button
+                android:id="@+id/btn_share_nearby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_loc_nearby"
+                android:backgroundTint="#00FFFFFF"
+                android:text="Share"
+                android:layout_alignParentEnd="true"
+                android:textColor="#0D8BFF"
+                android:textSize="14sp"
+                android:drawableLeft="@drawable/baseline_share_24"/>
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

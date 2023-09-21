@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoggedIn.HomeTasks.Nearby">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/nearby_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_filters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="end|center"
+        android:text="Filter"
+        app:iconTint="@color/white"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:backgroundTint="@color/limeGreen"
+        app:icon="@drawable/baseline_filter_list_24" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crd_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/fab_filters"
+        android:layout_alignParentEnd="true"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="15dp">
+        <LinearLayout
+            android:id="@+id/layout_country"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/fab_filters"
+                android:layout_alignBaseline="@id/btn_country"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:layout_marginRight="8dp"
+                android:text="Country" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="@color/limeGreen"
+                android:layout_weight="1"
+                app:fabSize="normal"
+                app:borderWidth="0dp"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/baseline_country_50" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/crd_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/crd_country"
+        android:layout_alignParentEnd="true"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="15dp">
+        <LinearLayout
+            android:id="@+id/layout_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/fab_filters"
+                android:layout_alignBaseline="@id/btn_country"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:layout_gravity="center"
+                android:layout_marginRight="8dp"
+                android:text="Distance" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btn_distance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="@color/limeGreen"
+                android:layout_weight="1"
+                app:fabSize="normal"
+                app:borderWidth="0dp"
+                android:tint="@color/black"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/baseline_distance_64" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

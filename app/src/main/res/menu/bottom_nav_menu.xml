@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navItem_home"
+        android:title="Home"
+        android:icon="@drawable/outline_home_24"/>
+    <item
+        android:id="@+id/navItem_trips"
+        android:title="Trips"
+        android:icon="@drawable/outline_flag_24"/>
+    <item
+        android:id="@+id/navItem_settings"
+        android:title="Settings"
+        android:icon="@drawable/outline_settings_24"/>
+    <item
+        android:id="@+id/navItem_account"
+        android:title="Account"
+        android:iconTint="@color/limeGreen"
+        android:icon="@drawable/outline_person_24"/>
+</menu>

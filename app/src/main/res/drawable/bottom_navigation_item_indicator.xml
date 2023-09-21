@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Define the background color for the indicator -->
+    <solid android:color="@color/limeGreen" />
+    <!-- Define the shape and size of the indicator -->
+    <corners android:radius="50dp" /> <!-- You can adjust the radius as needed -->
+</shape>
