@@ -6,17 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".LoggedIn.HomeTasks.Nearby">
 
+    <TextView
+        android:id="@+id/txt_noData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Data found"
+        android:layout_marginBottom="2dp"
+        android:textSize="24sp"
+        android:layout_above="@id/img_noData"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+    <ImageView
+        android:id="@+id/img_noData"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:alpha="50"
+        android:src="@drawable/no_data_found"
+        android:visibility="gone"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/nearby_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="120dp"
         android:layout_height="70dp"
         android:layout_centerInParent="true"
         android:progressTint="#2196F3" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/nearby_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_filters"
