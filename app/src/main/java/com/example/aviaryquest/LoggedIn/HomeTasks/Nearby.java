@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.aviaryquest.Adapters.Nearby_RV_Adapter;
@@ -65,6 +66,7 @@ public class Nearby extends Fragment {
     Dialog distanceDialog;
     private static final String API_KEY = "b9s2f5kpo8hr";//annnd yess😫😫😫 I know, terrible way of doing
     char filterChosen;
+    ProgressBar progressBar;
 
     //Distance popup window variables
     ImageView btn_closeInPopup;
@@ -90,11 +92,14 @@ public class Nearby extends Fragment {
         country_filter=view.findViewById(R.id.crd_country);
         filters=view.findViewById(R.id.fab_filters);
 
+        progressBar=view.findViewById(R.id.progressBar);
+
         distance_filter.setVisibility(View.GONE);
         country_filter.setVisibility(View.GONE);
         filters.shrink();
 
         isFloatBtnsVisible=false;
+
 
         //Initialize and set distance dialog pop window properties
         distanceDialog=new Dialog(getActivity());
@@ -162,6 +167,7 @@ public class Nearby extends Fragment {
     //Obtain the user's current location and addresses
     @SuppressLint("MissingPermission")
     private void getCurrentLocation(char filter) {
+        progressBar.setVisibility(View.VISIBLE);
         //Initialize Location Manager
         LocationManager locationManager = (LocationManager) getActivity()
                 .getSystemService(Context.LOCATION_SERVICE);
@@ -173,12 +179,12 @@ public class Nearby extends Fragment {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
+                    progressBar.setVisibility(View.GONE);
                     if(location != null){
                         Geocoder geocoder=new Geocoder(getActivity(),Locale.getDefault());
-                        List<Address>addresses=null;
 
                         try {
-                            addresses=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                            List<Address> addresses=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
 
                             if (filter=='c') {
                                 FetchData_usingCountry(addresses.get(0).getCountryCode());
@@ -204,10 +210,9 @@ public class Nearby extends Fragment {
                                 //Initialize location
                                 Location location1=locationResult.getLastLocation();
                                 Geocoder geocoder=new Geocoder(getActivity(),Locale.getDefault());
-                                List<Address>addresses=null;
 
                                 try {
-                                    addresses=geocoder.getFromLocation(location1.getLatitude(),location1.getLongitude(),1);
+                                    List<Address> addresses=geocoder.getFromLocation(location1.getLatitude(),location1.getLongitude(),1);
 
                                     if (filter=='c') {
                                         FetchData_usingCountry(addresses.get(0).getCountryCode());
@@ -229,6 +234,7 @@ public class Nearby extends Fragment {
             //When the location service is disabled, Open location settings
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
+        progressBar.setVisibility(View.GONE);
     }
     //Retrieve birds in the country
     private void FetchData_usingCountry(String regionCode){

@@ -66,6 +66,13 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
                 context.startActivity(Intent.createChooser(shareIntent, "Share Bird Info"));
             }
         });
+
+        holder.LocName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     //length of the recycler view
