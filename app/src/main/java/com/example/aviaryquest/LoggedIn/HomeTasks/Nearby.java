@@ -26,6 +26,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aviaryquest.Adapters.Nearby_RV_Adapter;
@@ -68,8 +70,12 @@ public class Nearby extends Fragment {
     char filterChosen;
     ProgressBar progressBar;
 
+    SeekBar seekBar;
+    int progress=0;
+    TextView txt_searchRadius,txt_NoData;
+
     //Distance popup window variables
-    ImageView btn_closeInPopup;
+    ImageView btn_closeInPopup,img_NoData;
     Button btn_searchInPopup;
 
     private final static int REQUEST_CODE = 100;
@@ -94,6 +100,12 @@ public class Nearby extends Fragment {
 
         progressBar=view.findViewById(R.id.progressBar);
 
+        //No data found
+        txt_NoData=view.findViewById(R.id.txt_noData);
+        img_NoData=view.findViewById(R.id.img_noData);
+
+
+
         distance_filter.setVisibility(View.GONE);
         country_filter.setVisibility(View.GONE);
         filters.shrink();
@@ -105,6 +117,7 @@ public class Nearby extends Fragment {
         distanceDialog=new Dialog(getActivity());
         distanceDialog.setContentView(R.layout.distance_selector_window);
         distanceDialog.dismiss();
+        //searchRadius.setText("Radius: "+seekBar.getProgress()+"/"+seekBar.getMax());
 
         filters.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,9 +142,7 @@ public class Nearby extends Fragment {
         distance_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filterChosen='d';
-                getCurrentLocation(filterChosen);
-                //show_distanceDialog();
+                show_distanceDialog();
             }
         });
 
@@ -152,10 +163,41 @@ public class Nearby extends Fragment {
     public void show_distanceDialog(){
         btn_closeInPopup=distanceDialog.findViewById(R.id.closeButton);
         btn_searchInPopup=distanceDialog.findViewById(R.id.searchButton);
+        seekBar=distanceDialog.findViewById(R.id.seekBar);
+        txt_searchRadius=distanceDialog.findViewById(R.id.txt_selectedRadius);
+
+        txt_searchRadius.setText("Radius: "+seekBar.getProgress()+"/"+seekBar.getMax());
+        seekBar.setMax(50);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
+                progress=progressValue;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                txt_searchRadius.setText("Radius: "+progress+"km");
+            }
+        });
 
         btn_closeInPopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                distanceDialog.dismiss();
+            }
+        });
+
+        btn_searchInPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterChosen='d';
+                getCurrentLocation(filterChosen);
                 distanceDialog.dismiss();
             }
         });
@@ -179,18 +221,26 @@ public class Nearby extends Fragment {
             fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.VISIBLE);
                     if(location != null){
                         Geocoder geocoder=new Geocoder(getActivity(),Locale.getDefault());
+                        recyclerView.setVisibility(View.VISIBLE);
+                        img_NoData.setVisibility(View.GONE);
+                        txt_NoData.setVisibility(View.GONE);
 
                         try {
                             List<Address> addresses=geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
 
-                            if (filter=='c') {
+                            if (filter=='c')
                                 FetchData_usingCountry(addresses.get(0).getCountryCode());
+
+                            else {
+                                if(progress==0) {
+                                    FetchData_usingDistance(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), 20);
+                                }
+                                else
+                                    FetchData_usingDistance(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), progress);
                             }
-                            else
-                                FetchData_usingDistance(addresses.get(0).getLatitude(),addresses.get(0).getLongitude(),20);
                         } catch (IOException e) {
                             Log.d("onSuccess Catch",e.toString());
                         }
@@ -214,11 +264,17 @@ public class Nearby extends Fragment {
                                 try {
                                     List<Address> addresses=geocoder.getFromLocation(location1.getLatitude(),location1.getLongitude(),1);
 
-                                    if (filter=='c') {
+                                    if (filter=='c')
                                         FetchData_usingCountry(addresses.get(0).getCountryCode());
+
+                                    else {
+                                        if(progress==0) {
+                                            FetchData_usingDistance(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), 20);
+                                        }
+                                        else
+                                            FetchData_usingDistance(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), progress);
                                     }
-                                    else
-                                        FetchData_usingDistance(addresses.get(0).getLatitude(),addresses.get(0).getLongitude(),20);
+
                                 } catch (IOException e) {
                                     Toast.makeText(getActivity(), "Error:\t"+e.getMessage(), Toast.LENGTH_LONG).show();
                                 }
@@ -234,7 +290,6 @@ public class Nearby extends Fragment {
             //When the location service is disabled, Open location settings
             startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         }
-        progressBar.setVisibility(View.GONE);
     }
     //Retrieve birds in the country
     private void FetchData_usingCountry(String regionCode){
@@ -254,6 +309,7 @@ public class Nearby extends Fragment {
                     Toast.makeText(getContext(), "Unsuccessful:\t"+response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
+                progressBar.setVisibility(View.GONE);
                 List<NearbyVariables> ebirdsList=response.body();
                 adapter=new Nearby_RV_Adapter(getContext(),ebirdsList);
                 recyclerView.setAdapter(adapter);
@@ -286,12 +342,17 @@ public class Nearby extends Fragment {
             public void onResponse(Call<List<NearbyVariables>> call, Response<List<NearbyVariables>> response) {
                 if (response.isSuccessful()) {
                     List<NearbyVariables> ebirdsList = response.body();
-                    if (ebirdsList != null) {
-                        adapter = new Nearby_RV_Adapter(getContext(), ebirdsList);
-                        recyclerView.setAdapter(adapter);
+                    if(ebirdsList.isEmpty()) {
+                        recyclerView.setVisibility(View.GONE);
+                        img_NoData.setVisibility(View.VISIBLE);
+                        txt_NoData.setVisibility(View.VISIBLE);
                     } else {
                         // Handle the case where the response is empty or invalid
-                        Toast.makeText(getContext(), "Empty or invalid response", Toast.LENGTH_LONG).show();
+                        recyclerView.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
+                        adapter = new Nearby_RV_Adapter(getContext(), ebirdsList);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 } else {
                     // Handle the case where the response is not successful
