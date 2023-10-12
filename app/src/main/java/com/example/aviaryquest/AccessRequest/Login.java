@@ -3,6 +3,7 @@ package com.example.aviaryquest.AccessRequest;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -18,6 +19,10 @@ import android.widget.Toast;
 import com.example.aviaryquest.Database;
 import com.example.aviaryquest.LoggedIn.LoggedInActivity;
 import com.example.aviaryquest.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class Login extends Fragment {
@@ -25,6 +30,8 @@ public class Login extends Fragment {
     EditText email,password;
     TextView btn_forgotPassword,err_email,err_password;
     ImageView btn_login;
+    FirebaseAuth auth;
+    AccessUtils accessUtils;
 
     Database db;
     @Override
@@ -41,7 +48,10 @@ public class Login extends Fragment {
         btn_forgotPassword=view.findViewById(R.id.txt_forgotPassword);
         btn_login=view.findViewById(R.id.btn_log);
 
-        db=new Database(getActivity().getApplicationContext());
+        accessUtils=new AccessUtils();
+        auth=FirebaseAuth.getInstance();
+
+        db=new Database(getActivity());
 
         //Log the user in
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -54,29 +64,36 @@ public class Login extends Fragment {
                 String Email=email.getText().toString().trim();
                 String Password=password.getText().toString().trim();
 
-                if (!areFieldsFilled(Email, Password)) {
+                if(!areFieldsFilled(Email,Password))
+                    return;
+                if(!accessUtils.isValidEmail(Email)){
+                    err_email.setVisibility(View.VISIBLE);
+                    err_email.setText("Invalid Email address");
+                    return;
+                }
+
+                if(areFieldsFilled(Email,Password) && accessUtils.isValidEmail(Email)){
+                    err_password.setText(null);
+                    err_email.setText(null);
+                    auth.signInWithEmailAndPassword(Email,Password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(getActivity(), "Successfully logged in", Toast.LENGTH_LONG).show();
+                                accessUtils.authorisedUser(getActivity());
+                            }
+                            else{
+                                Toast.makeText(getActivity(), "Error"+task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                }
+                else {
                     err_password.setText("*required");
                     err_email.setText("*required");
                     return;
                 }
 
-                err_password.setText(null);
-                err_email.setText(null);
-
-                if (!db.userExists(Email)) {
-                    Toast.makeText(getActivity(), "User doesn't exist\n\n\nPlease Register first", Toast.LENGTH_LONG).show();
-                    return; // Exit if user doesn't exist
-                }
-
-
-                if (db.LoginUser(Email, Password)) {
-                    Toast.makeText(getActivity(), "Successfully logged in", Toast.LENGTH_LONG).show();
-                    Intent loginIntent = new Intent(getActivity(), LoggedInActivity.class);
-                    startActivity(loginIntent);
-                } else {
-                    err_password.setText("Incorrect password");
-                    err_password.setVisibility(View.VISIBLE);
-                }
 
 
             }
@@ -94,6 +111,7 @@ public class Login extends Fragment {
 
         return view;
     }
+
 
 
     //Checking if all fields are filled,no empty fields

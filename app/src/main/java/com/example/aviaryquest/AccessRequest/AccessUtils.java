@@ -1,5 +1,12 @@
 package com.example.aviaryquest.AccessRequest;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.app.Activity;
+import android.content.Intent;
+
+import com.example.aviaryquest.LoggedIn.LoggedInActivity;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,5 +23,10 @@ public class AccessUtils {
     public static boolean isValidEmail(String email) {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+    public void authorisedUser(Activity activity){
+        Intent Login=new Intent(activity, LoggedInActivity.class);
+        activity.startActivity(Login);
+        activity.finish();
     }
 }

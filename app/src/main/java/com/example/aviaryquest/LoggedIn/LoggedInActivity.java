@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class LoggedInActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,15 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoggedIn.Account">
+    tools:context=".LoggedIn.Account"
+    android:padding="8dp">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/img_logout"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:text="Account" />
+        android:src="@drawable/round_exit_to_app_24"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/txt_logout"/>
 
+    <TextView
+        android:id="@+id/txt_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textColor="#F60202"
+        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
 </RelativeLayout>
