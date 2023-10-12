@@ -41,7 +41,7 @@ public class Login extends Fragment {
         btn_forgotPassword=view.findViewById(R.id.txt_forgotPassword);
         btn_login=view.findViewById(R.id.btn_log);
 
-        db=new Database(getActivity().getApplicationContext());
+        db=new Database(getActivity());
 
         //Log the user in
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -63,20 +63,20 @@ public class Login extends Fragment {
                 err_password.setText(null);
                 err_email.setText(null);
 
-                if (!db.userExists(Email)) {
+                /*if (!db.userExists(Email)) {
                     Toast.makeText(getActivity(), "User doesn't exist\n\n\nPlease Register first", Toast.LENGTH_LONG).show();
                     return; // Exit if user doesn't exist
-                }
+                }*/
 
 
-                if (db.LoginUser(Email, Password)) {
+                /*if (db.LoginUser(Email, Password)) {
                     Toast.makeText(getActivity(), "Successfully logged in", Toast.LENGTH_LONG).show();
                     Intent loginIntent = new Intent(getActivity(), LoggedInActivity.class);
                     startActivity(loginIntent);
                 } else {
                     err_password.setText("Incorrect password");
                     err_password.setVisibility(View.VISIBLE);
-                }
+                }*/
 
 
             }

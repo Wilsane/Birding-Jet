@@ -1,37 +1,38 @@
 package com.example.aviaryquest;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class Database extends SQLiteOpenHelper {
+public class Database {
 
+    Activity _activity;
+    boolean isRegistered;
+    FirebaseAuth auth=FirebaseAuth.getInstance();
+    FirebaseUser firebaseUser=auth.getCurrentUser();
 
-    public Database( Context context) {
-        super(context,"Login.db",null,1);
+    public Database( Activity activity) {
+        _activity=activity;
+
     }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL("Create table Users(email Text primary key,password Text)");
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        db.execSQL("drop Table if exists Users");
-    }
-
 
     //Check if the user already exists in the database
-    public boolean userExists(String Email){
+    /*public boolean userExists(String Email){
         SQLiteDatabase myDb=this.getWritableDatabase();
         Cursor cursor=myDb.rawQuery("select * from Users where email=?",new String[]{Email});
 
@@ -39,28 +40,28 @@ public class Database extends SQLiteOpenHelper {
             return true;
         }
         return false;
-    }
+    }*/
 
 
     //Insert the new user into the database
     public boolean RegisterUser(String Email, String Password){
-        SQLiteDatabase myDb=this.getWritableDatabase();
-        ContentValues contentValues=new ContentValues();
-        contentValues.put("email",Email);
-        contentValues.put("password",Password);
 
-        long result=myDb.insert("Users",null,contentValues);
+        auth.createUserWithEmailAndPassword(Email, Password).addOnCompleteListener(_activity, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    isRegistered=true;
+                }
+                else
+                    isRegistered=false;
+            }
+        });
+        return isRegistered;
 
-        if (result==-1){
-            return false;
-        }
-        else {
-            return true;
-        }
     }
 
     //Login the user if all requirements are met
-    public boolean LoginUser(String Email,String Password){
+    /*public boolean LoginUser(String Email,String Password){
 
         SQLiteDatabase myDb=this.getWritableDatabase();
         Cursor cursor=myDb.rawQuery("select * from Users where email=? and password=?",new String[]{Email,Password});
@@ -70,7 +71,7 @@ public class Database extends SQLiteOpenHelper {
         }
 
         return false;
-    }
+    }*/
 
 
 

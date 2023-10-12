@@ -131,10 +131,7 @@ public class Nearby extends Fragment {
                     isFloatBtnsVisible=true;
                     filters.extend();
                 }else{
-                    distance_filter.setVisibility(View.GONE);
-                    country_filter.setVisibility(View.GONE);
-                    isFloatBtnsVisible=false;
-                    filters.shrink();
+                    closeFloatBtns();
                 }
             }
         });
@@ -151,11 +148,19 @@ public class Nearby extends Fragment {
             public void onClick(View v) {
                 filterChosen='c';
                 getCurrentLocation(filterChosen);
+                closeFloatBtns();
             }
         });
 
 
         return view;
+    }
+
+    private void closeFloatBtns(){
+        distance_filter.setVisibility(View.GONE);
+        country_filter.setVisibility(View.GONE);
+        isFloatBtnsVisible=false;
+        filters.shrink();
     }
 
 
@@ -199,6 +204,7 @@ public class Nearby extends Fragment {
                 filterChosen='d';
                 getCurrentLocation(filterChosen);
                 distanceDialog.dismiss();
+                closeFloatBtns();
             }
         });
         distanceDialog.show();
@@ -346,6 +352,7 @@ public class Nearby extends Fragment {
                         recyclerView.setVisibility(View.GONE);
                         img_NoData.setVisibility(View.VISIBLE);
                         txt_NoData.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.GONE);
                     } else {
                         // Handle the case where the response is empty or invalid
                         recyclerView.setVisibility(View.GONE);
