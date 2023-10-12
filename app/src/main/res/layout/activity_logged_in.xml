@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".LoggedIn.LoggedInActivity">
 
+
+
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
@@ -13,19 +15,19 @@
         android:layout_above="@id/bottom_navigation">
 
 
-</FrameLayout>
+    </FrameLayout>
 
-<com.google.android.material.bottomnavigation.BottomNavigationView
-android:id="@+id/bottom_navigation"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_alignParentBottom="true"
-app:labelVisibilityMode="labeled"
-app:itemRippleColor="@color/limeGreen"
-app:itemIconTint="@color/selected_icon_color"
-app:menu="@menu/bottom_nav_menu"
-app:itemIconSize="28dp"
-app:itemActiveIndicatorStyle="@drawable/bottom_navigation_item_indicator"
-app:itemTextColor="@color/selected_icon_color"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/bottom_navigation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    app:labelVisibilityMode="labeled"
+    app:itemRippleColor="@color/limeGreen"
+    app:itemIconTint="@color/selected_icon_color"
+    app:menu="@menu/bottom_nav_menu"
+    app:itemIconSize="28dp"
+    app:itemActiveIndicatorStyle="@drawable/bottom_navigation_item_indicator"
+    app:itemTextColor="@color/selected_icon_color"/>
 
-    </RelativeLayout>
+</RelativeLayout>

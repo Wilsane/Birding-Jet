@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "393242917900",
+    "project_id": "opsc7312-ce100",
+    "storage_bucket": "opsc7312-ce100.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393242917900:android:86e5230569311407710229",
+        "android_client_info": {
+          "package_name": "com.example.aviaryquest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyyKbJ5v2DMmj6Iqwj3Tyt1WqwGQcEZ7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

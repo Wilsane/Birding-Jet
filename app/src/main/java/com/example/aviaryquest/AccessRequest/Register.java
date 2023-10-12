@@ -37,7 +37,8 @@ public class Register extends Fragment {
     Database db;
     AccessUtils accessUtils;
     ProgressBar progressBar;
-
+    FirebaseAuth auth;
+    FirebaseUser firebaseUser;
 
 
     @Override
@@ -56,6 +57,12 @@ public class Register extends Fragment {
 
         db=new Database(getActivity());
         accessUtils=new AccessUtils();
+
+        //Firebase variables
+        auth=FirebaseAuth.getInstance();
+        firebaseUser=auth.getCurrentUser();
+
+
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,8 +94,7 @@ public class Register extends Fragment {
                     arePasswordsEqual(password, confirmPassword) &&
                     accessUtils.isValidEmail(email) && isValidPassword(password))
                 {
-                    FirebaseAuth auth=FirebaseAuth.getInstance();
-                    FirebaseUser firebaseUser=auth.getCurrentUser();
+
                     progressBar.setVisibility(View.VISIBLE);
                     btn_register.setEnabled(false);
                     auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -96,12 +102,10 @@ public class Register extends Fragment {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()){
                                 Toast.makeText(getActivity(), "Firebase user successfully registered", Toast.LENGTH_LONG).show();
-                                Intent Login=new Intent(getActivity(), LoggedInActivity.class);
-                                startActivity(Login);
-                                getActivity().finish();
+                                accessUtils.authorisedUser(getActivity());
                             }
                             else {
-                                Toast.makeText(getActivity(), "Firebase registration unsuccessful", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), "Error"+task.getException().getMessage(), Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -113,6 +117,8 @@ public class Register extends Fragment {
 
         return view;
     }
+
+
 
     //Check if all inputs fields are filled
     private boolean areFieldsFilled(String checkEmail,String checkPass,String checkConPass){
