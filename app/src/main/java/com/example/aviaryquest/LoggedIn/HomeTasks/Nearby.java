@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 import com.example.aviaryquest.Adapters.Nearby_RV_Adapter;
 import com.example.aviaryquest.Data.EbirdJson;
 import com.example.aviaryquest.Data.Models.NearbyVariables;
+import com.example.aviaryquest.Data.Msg;
 import com.example.aviaryquest.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -69,6 +71,7 @@ public class Nearby extends Fragment {
     private static final String API_KEY = "b9s2f5kpo8hr";//annnd yess😫😫😫 I know, terrible way of doing
     char filterChosen;
     ProgressBar progressBar;
+    Msg msg;
 
     SeekBar seekBar;
     int progress=0;
@@ -86,6 +89,7 @@ public class Nearby extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_nearby, container, false);
 
+        msg=new Msg();
         //Initialize recyclerview and set its properties
         recyclerView = view.findViewById(R.id.nearby_recyclerview);
         recyclerView.setHasFixedSize(true);
@@ -248,7 +252,8 @@ public class Nearby extends Fragment {
                                     FetchData_usingDistance(addresses.get(0).getLatitude(), addresses.get(0).getLongitude(), progress);
                             }
                         } catch (IOException e) {
-                            Log.d("onSuccess Catch",e.toString());
+                            Drawable errImg=getResources().getDrawable(R.drawable.baseline_error_24);
+                            msg.display(getActivity(),e.getMessage(),"Error Found",errImg,"err");
                         }
                     }
                     else{
@@ -282,7 +287,8 @@ public class Nearby extends Fragment {
                                     }
 
                                 } catch (IOException e) {
-                                    Toast.makeText(getActivity(), "Error:\t"+e.getMessage(), Toast.LENGTH_LONG).show();
+                                    Drawable errImg=getResources().getDrawable(R.drawable.baseline_error_24);
+                                    msg.display(getActivity(),e.getMessage(),"Error Found",errImg,"err");
                                 }
                             }
                         };
@@ -312,14 +318,15 @@ public class Nearby extends Fragment {
             @Override
             public void onResponse(Call<List<NearbyVariables>> call, Response<List<NearbyVariables>> response) {
                 if(!response.isSuccessful()){
-                    Toast.makeText(getContext(), "Unsuccessful:\t"+response.code(), Toast.LENGTH_LONG).show();
-                    return;
+                    Drawable errImg=getResources().getDrawable(R.drawable.baseline_error_24);
+                    msg.display(getActivity(),response.message(),"Birds in the country",errImg,"err");                    return;
                 }
                 progressBar.setVisibility(View.GONE);
                 List<NearbyVariables> ebirdsList=response.body();
                 adapter=new Nearby_RV_Adapter(getContext(),ebirdsList);
                 recyclerView.setAdapter(adapter);
-
+                Drawable errImg=getResources().getDrawable(R.drawable.baseline_check_circle_24);
+                msg.display(getActivity(),"Successfully uploaded","Birds in the country",errImg,"success");
                 String rawJson = response.raw().body().toString();
                 Log.d("Raw JSON Response", rawJson);
             }
@@ -327,8 +334,8 @@ public class Nearby extends Fragment {
             // Handle network errors
             @Override
             public void onFailure(Call<List<NearbyVariables>> call, Throwable t) {
-                Toast.makeText(getContext(), "Error:\t"+t.getMessage(), Toast.LENGTH_LONG).show();
-                Log.d("hmm",t.getMessage());
+                Drawable errImg=getResources().getDrawable(R.drawable.baseline_error_24);
+                msg.display(getActivity(),t.getMessage(),"Error Found",errImg,"err");
             }
         });
     }
@@ -349,29 +356,33 @@ public class Nearby extends Fragment {
                 if (response.isSuccessful()) {
                     List<NearbyVariables> ebirdsList = response.body();
                     if(ebirdsList.isEmpty()) {
+                        // Handle the case where the response is empty or invalid
                         recyclerView.setVisibility(View.GONE);
                         img_NoData.setVisibility(View.VISIBLE);
                         txt_NoData.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                     } else {
-                        // Handle the case where the response is empty or invalid
                         recyclerView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.GONE);
                         adapter = new Nearby_RV_Adapter(getContext(), ebirdsList);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setVisibility(View.VISIBLE);
+                        Drawable errImg=getResources().getDrawable(R.drawable.baseline_check_circle_24);
+                        msg.display(getActivity(),"Successfully loaded","Birds within "+distance+"Km",errImg,"success");
                     }
                 } else {
                     // Handle the case where the response is not successful
-                    Toast.makeText(getContext(), "Unsuccessful: " + response.code(), Toast.LENGTH_LONG).show();
+                    Drawable errImg=getResources().getDrawable(R.drawable.baseline_check_circle_24);
+                    msg.display(getActivity(),"Error found",response.message(),errImg,"err");
+
                 }
             }
 
             @Override
             public void onFailure(Call<List<NearbyVariables>> call, Throwable t) {
                 // Handle network errors
-                Toast.makeText(getContext(), "Network error: " + t.getMessage(), Toast.LENGTH_LONG).show();
-            }
+                Drawable errImg=getResources().getDrawable(R.drawable.baseline_error_24);
+                msg.display(getActivity(),t.getMessage(),"Error Found",errImg,"err");            }
         });
     }
 

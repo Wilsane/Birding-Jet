@@ -93,6 +93,12 @@
             android:textStyle="bold" />
 
 
+        <ProgressBar
+            android:id="@+id/log_progressBar"
+            android:layout_width="64dp"
+            android:layout_height="70dp"
+            android:visibility="gone"
+            android:layout_centerInParent="true" />
     </RelativeLayout>
 
 

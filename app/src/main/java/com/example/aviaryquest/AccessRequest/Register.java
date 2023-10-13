@@ -1,6 +1,7 @@
 package com.example.aviaryquest.AccessRequest;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.nfc.Tag;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.aviaryquest.Data.Msg;
 import com.example.aviaryquest.Database;
 import com.example.aviaryquest.LoggedIn.LoggedInActivity;
 import com.example.aviaryquest.R;
@@ -26,6 +28,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.logging.Logger;
@@ -39,6 +42,7 @@ public class Register extends Fragment {
     ProgressBar progressBar;
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
+    private static final String TAG="Register fragment";
 
 
     @Override
@@ -105,8 +109,20 @@ public class Register extends Fragment {
                                 accessUtils.authorisedUser(getActivity());
                             }
                             else {
-                                Toast.makeText(getActivity(), "Error"+task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                Msg msg=new Msg();
+                                Drawable errImg=getResources().getDrawable(R.drawable.baseline_error_24);
+
+                                try {
+                                    throw task.getException();
+                                }catch (FirebaseAuthUserCollisionException ex){
+                                    PasswordInputLayout.setError(ex.getMessage());
+                                }catch (Exception e) {
+                                    msg.display(getActivity(),e.getMessage(),"Error Found",errImg,"err");
+                                }
+                                msg.display(getActivity(),task.getException().getMessage(),"Error Found",errImg,"err");
                             }
+                            progressBar.setVisibility(View.GONE);
+                            btn_register.setEnabled(true);
                         }
                     });
 
