@@ -94,6 +94,36 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
 
             btn_nearbyLike=itemView.findViewById(R.id.btn_like_nearby);
             btn_nearbyShare=itemView.findViewById(R.id.btn_share_nearby);
+
+            btn_nearbyLike.setOnClickListener((v) -> saveData());
+        }
+        void saveData() {
+            String cName = ComName.getText().toString();
+            String s_name = SciName.getText().toString();
+            String l_name = LocName.getText().toString();
+
+            NearbyVariables nearbyVariables = new NearbyVariables();
+            nearbyVariables.setComName(cName);
+            nearbyVariables.setSciName(s_name);
+            nearbyVariables.setLocName(l_name);
+
+            saveDataToFirebase(nearbyVariables);
+        }
+        void saveDataToFirebase(NearbyVariables nearbyVariables){
+            DocumentReference documentReference;
+            documentReference = Utility.getCollectionReferenceForData().document();
+
+            documentReference.set(nearbyVariables).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                    if (task.isSuccessful()) {
+                        Toast.makeText(context, "Liked!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(context, "Not liked!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
     public void setData(List<NearbyVariables> data) {
