@@ -1,6 +1,7 @@
 package com.example.aviaryquest.AccessRequest;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,9 +14,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.aviaryquest.Data.Msg;
 import com.example.aviaryquest.Database;
 import com.example.aviaryquest.LoggedIn.LoggedInActivity;
 import com.example.aviaryquest.R;
@@ -23,6 +26,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 
 public class Login extends Fragment {
@@ -30,6 +35,7 @@ public class Login extends Fragment {
     EditText email,password;
     TextView btn_forgotPassword,err_email,err_password;
     ImageView btn_login;
+    ProgressBar progressBar;
     FirebaseAuth auth;
     AccessUtils accessUtils;
 
@@ -47,6 +53,7 @@ public class Login extends Fragment {
 
         btn_forgotPassword=view.findViewById(R.id.txt_forgotPassword);
         btn_login=view.findViewById(R.id.btn_log);
+        progressBar=view.findViewById(R.id.log_progressBar);
 
         accessUtils=new AccessUtils();
         auth=FirebaseAuth.getInstance();
@@ -75,6 +82,7 @@ public class Login extends Fragment {
                 if(areFieldsFilled(Email,Password) && accessUtils.isValidEmail(Email)){
                     err_password.setText(null);
                     err_email.setText(null);
+                    progressBar.setVisibility(View.VISIBLE);
                     auth.signInWithEmailAndPassword(Email,Password).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -83,8 +91,21 @@ public class Login extends Fragment {
                                 accessUtils.authorisedUser(getActivity());
                             }
                             else{
-                                Toast.makeText(getActivity(), "Error"+task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                try {
+                                    throw task.getException();
+                                }catch (FirebaseAuthInvalidUserException noUser){
+                                    err_email.setText(noUser.getMessage());
+                                    err_email.setVisibility(View.VISIBLE);
+                                }catch (FirebaseAuthInvalidCredentialsException e){
+                                    err_password.setVisibility(View.VISIBLE);
+                                    err_password.setText("Incorrect password");
+                                } catch (Exception e) {
+                                    Msg msg=new Msg();
+                                    Drawable errImg=getResources().getDrawable(R.drawable.baseline_error_24);
+                                    msg.display(getActivity(),e.getMessage(),"Error Found",errImg,"err");
+                                }
                             }
+                            progressBar.setVisibility(View.GONE);
                         }
                     });
                 }
@@ -111,8 +132,6 @@ public class Login extends Fragment {
 
         return view;
     }
-
-
 
     //Checking if all fields are filled,no empty fields
     private boolean areFieldsFilled(String Email,String Password){
