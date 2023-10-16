@@ -45,7 +45,6 @@ public class BirdAdapter extends FirestoreRecyclerAdapter<NearbyVariables, BirdA
 
     class BirdViewHolder extends RecyclerView.ViewHolder{
         TextView sci_name, com_name, loc_name;
-        ImageView unliketbn;
 
         public BirdViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -53,29 +52,8 @@ public class BirdAdapter extends FirestoreRecyclerAdapter<NearbyVariables, BirdA
             com_name = itemView.findViewById(R.id.fav_birdname);
             loc_name = itemView.findViewById(R.id.fav_birdLocation);
 
-            unliketbn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    unliketbn.setImageResource(R.drawable.baseline_favorite_active);
-                    deleteData();
-                }
 
-            });
         }
-        void deleteData() {
-            DocumentReference documentReference;
-            documentReference = Utility.getCollectionReferenceForData().document();
 
-            documentReference.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(context, "Removed Successfully!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "!Unsuccessful!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        }
     }
 }
