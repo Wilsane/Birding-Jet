@@ -8,6 +8,9 @@ public class NearbyVariables {
      locName:Location Name*/
     private String comName,sciName,locName;
 
+    public NearbyVariables() {
+    }
+
 
     public String getComName() {
         return comName;
@@ -21,4 +24,15 @@ public class NearbyVariables {
         return locName;
     }
 
+    public void setComName(String comName) {
+        this.comName = comName;
+    }
+
+    public void setSciName(String sciName) {
+        this.sciName = sciName;
+    }
+
+    public void setLocName(String locName) {
+        this.locName = locName;
+    }
 }

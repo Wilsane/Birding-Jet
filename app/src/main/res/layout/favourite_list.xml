@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:cardElevation="15dp"
-        android:layout_margin="8dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -18,55 +24,57 @@
                 android:id="@+id/img_nearby"
                 android:layout_width="120dp"
                 android:layout_height="128dp"
-                android:src="@drawable/bird"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/bird" />
 
             <TextView
-                android:id="@+id/comName_nearby"
+                android:id="@+id/fav_birdname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Scientific Name"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:maxLines="1"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:textColor="@color/limeGreen"
-                android:layout_toRightOf="@id/img_nearby"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="5dp"/>
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="3dp"
+                android:layout_toRightOf="@id/img_nearby"
+                android:maxLines="1"
+                android:text="Scientific Name"
+                android:textColor="@color/limeGreen"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <TextView
-                android:id="@+id/sciName_nearby"
+                android:id="@+id/fav_specie"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:text="Scientific Name"
-                android:maxLines="1"
+                android:layout_below="@id/fav_birdname"
                 android:layout_marginLeft="3dp"
                 android:layout_toRightOf="@id/img_nearby"
-                android:layout_below="@id/comName_nearby"/>
+                android:maxLines="1"
+                android:text="Scientific Name" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/layout_loc_nearby"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/sciName_nearby"
-                android:layout_toRightOf="@id/img_nearby"
+                android:layout_below="@id/fav_specie"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
+                android:layout_toRightOf="@id/img_nearby"
                 app:cardCornerRadius="50dp">
+
                 <TextView
-                    android:id="@+id/loc_nearby"
+                    android:id="@+id/fav_birdLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/limeGreen"
                     android:drawableLeft="@drawable/baseline_location_on_24"
                     android:drawablePadding="2dp"
-                    android:text="Ditiro st"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
                     android:padding="2dp"
                     android:paddingRight="3dp"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/white"/>
+                    android:text="Ditiro st"
+                    android:textColor="@color/white" />
             </androidx.cardview.widget.CardView>
 
             <ImageView
@@ -76,20 +84,21 @@
                 android:layout_below="@id/layout_loc_nearby"
                 android:layout_toRightOf="@id/img_nearby"
                 android:backgroundTint="#00FFFFFF"
-                android:src="@drawable/baseline_favorite_inactive"/>
+                android:src="@drawable/baseline_favorite_active" />
+
             <Button
                 android:id="@+id/btn_share_nearby"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_loc_nearby"
-                android:backgroundTint="#00FFFFFF"
-                android:text="Share"
                 android:layout_alignParentEnd="true"
+                android:backgroundTint="#00FFFFFF"
+                android:drawableLeft="@drawable/baseline_share_24"
+                android:text="Share"
                 android:textColor="#0D8BFF"
-                android:textSize="14sp"
-                android:drawableLeft="@drawable/baseline_share_24"/>
+                android:textSize="14sp" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

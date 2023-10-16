@@ -3,64 +3,57 @@ package com.example.aviaryquest.LoggedIn;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.aviaryquest.BirdAdapter;
+import com.example.aviaryquest.Data.Models.NearbyVariables;
 import com.example.aviaryquest.R;
+import com.example.aviaryquest.Utility;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.Query;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Trips#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Trips extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Trips() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Trips.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Trips newInstance(String param1, String param2) {
-        Trips fragment = new Trips();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    RecyclerView recyclerView2;
+    BirdAdapter birdAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trips, container, false);
+        View view = inflater.inflate(R.layout.fragment_trips, container, false);
+        recyclerView2 = view.findViewById(R.id.recyclerView2);
+        setUpRecyclerView();
+
+        return view;
+    }
+    void setUpRecyclerView() {
+        Query query = Utility.getCollectionReferenceForData().orderBy("sciName",Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<NearbyVariables> options = new FirestoreRecyclerOptions.Builder<NearbyVariables>()
+                .setQuery(query, NearbyVariables.class).build();
+        recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
+        birdAdapter = new BirdAdapter(options, getContext());
+        recyclerView2.setAdapter(birdAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        birdAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        birdAdapter.stopListening();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        birdAdapter.notifyDataSetChanged();
     }
 }

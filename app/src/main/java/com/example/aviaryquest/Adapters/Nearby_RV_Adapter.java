@@ -9,14 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aviaryquest.Data.Models.NearbyVariables;
 import com.example.aviaryquest.R;
+import com.example.aviaryquest.Utility;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.List;
 
@@ -44,6 +50,7 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
         holder.ComName.setText(nearbyVariables.getComName());
         holder.SciName.setText(nearbyVariables.getSciName());
         holder.LocName.setText(nearbyVariables.getLocName());
+
 
         //When the share button is clicked
         holder.btn_nearbyShare.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +92,9 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
     //Declaring widgets from the fragment
     public class viewHolder extends RecyclerView.ViewHolder{
         TextView ComName,SciName,LocName;
-        Button btn_nearbyLike,btn_nearbyShare;
+        Button btn_nearbyShare;
+        ImageView btn_nearbyLike;
+        private Boolean isLiked = false;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             ComName=itemView.findViewById(R.id.comName_nearby);
@@ -94,6 +103,44 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
 
             btn_nearbyLike=itemView.findViewById(R.id.btn_like_nearby);
             btn_nearbyShare=itemView.findViewById(R.id.btn_share_nearby);
+
+            //When like button is clicked
+            btn_nearbyLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    btn_nearbyLike.setImageResource(R.drawable.baseline_favorite_active);
+                    saveData();
+                }
+            });
+        }
+        void saveData(){
+            String cName = ComName.getText().toString();
+            String s_name = SciName.getText().toString();
+            String loc_name = LocName.getText().toString();
+
+            NearbyVariables nearbyVariables = new NearbyVariables();
+            nearbyVariables.setComName(cName);
+            nearbyVariables.setSciName(s_name);
+            nearbyVariables.setLocName(loc_name);
+
+            saveDataToFirebase(nearbyVariables);
+        }
+        //this code saves data to database
+        void saveDataToFirebase(NearbyVariables nearbyVariables) {
+
+            DocumentReference documentReference;
+            documentReference = Utility.getCollectionReferenceForData().document();
+
+            documentReference.set(nearbyVariables).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(context, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "!Unsuccessful!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
     public void setData(List<NearbyVariables> data) {
