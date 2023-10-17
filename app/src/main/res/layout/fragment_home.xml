@@ -45,6 +45,7 @@
             android:layout_gravity="start"
             android:background="@drawable/selected_home_top_navbar"/>
         <Button
+            android:id="@+id/btn_hotspots"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Hotspots"
