@@ -25,4 +25,5 @@ public interface EbirdJson {
             @Query("dist") int searchRadius,
             @Header("X-eBirdApiToken") String apiKey
     );
+
 }

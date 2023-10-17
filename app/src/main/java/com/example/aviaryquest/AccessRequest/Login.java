@@ -1,22 +1,26 @@
 package com.example.aviaryquest.AccessRequest;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.example.aviaryquest.Data.Msg;
 import com.example.aviaryquest.Database;
@@ -33,6 +37,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 public class Login extends Fragment {
 
     EditText email,password;
+    ToggleButton tgb_showHidePassword;
     TextView btn_forgotPassword,err_email,err_password;
     ImageView btn_login;
     ProgressBar progressBar;
@@ -48,6 +53,8 @@ public class Login extends Fragment {
 
         email=view.findViewById(R.id.log_inpt_email);
         password=view.findViewById(R.id.log_inpt_password);
+        tgb_showHidePassword=view.findViewById(R.id.toggleButtonShowHideButton);
+
         err_email=view.findViewById(R.id.err_email_txt);
         err_password=view.findViewById(R.id.err_password_txt);
 
@@ -60,6 +67,23 @@ public class Login extends Fragment {
 
         db=new Database(getActivity());
 
+        //Show and hide the password in password Edit text
+        tgb_showHidePassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Show password
+                    password.setTransformationMethod(null);
+                    int sky= Color.parseColor("#26a7de");
+                    tgb_showHidePassword.setTextColor(sky);
+                } else {
+                    // Hide password
+                    password.setTransformationMethod(new PasswordTransformationMethod());
+                    int gray= Color.parseColor("#848484");
+                    tgb_showHidePassword.setTextColor(gray);
+                }
+            }
+        });
         //Log the user in
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override

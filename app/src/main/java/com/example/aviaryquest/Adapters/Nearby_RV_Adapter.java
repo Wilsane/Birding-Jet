@@ -3,13 +3,11 @@ package com.example.aviaryquest.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.text.Html;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -70,7 +68,6 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
         holder.LocName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
     }
@@ -86,6 +83,7 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
     public class viewHolder extends RecyclerView.ViewHolder{
         TextView ComName,SciName,LocName;
         Button btn_nearbyLike,btn_nearbyShare;
+        ImageView birdImg;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             ComName=itemView.findViewById(R.id.comName_nearby);
@@ -94,6 +92,7 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
 
             btn_nearbyLike=itemView.findViewById(R.id.btn_like_nearby);
             btn_nearbyShare=itemView.findViewById(R.id.btn_share_nearby);
+            birdImg=itemView.findViewById(R.id.img_nearby);
         }
     }
     public void setData(List<NearbyVariables> data) {
