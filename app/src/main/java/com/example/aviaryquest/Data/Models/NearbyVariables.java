@@ -6,10 +6,23 @@ public class NearbyVariables {
      *  comName:Common Name,
      sciName:Scientific Name,
      locName:Location Name*/
-    private String comName,sciName,locName;
+    private String comName;
+    private String sciName;
+    private String locName;
+    private String birdPicUrl;
+
+    public String getBirdPicUrl() {
+        return birdPicUrl;
+    }
+
+    public void setBirdPicUrl(String birdPicUrl) {
+        this.birdPicUrl = birdPicUrl;
+    }
+
 
     public NearbyVariables() {
     }
+
 
 
     public String getComName() {

@@ -1,29 +1,28 @@
-package com.example.aviaryquest;
+package com.example.aviaryquest.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aviaryquest.Data.Models.NearbyVariables;
+import com.example.aviaryquest.LoggedIn.CaptureImage;
+import com.example.aviaryquest.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 
-public class BirdAdapter extends FirestoreRecyclerAdapter<NearbyVariables, BirdAdapter.BirdViewHolder> {
+public class Trips_RV_Adapter extends FirestoreRecyclerAdapter<NearbyVariables, Trips_RV_Adapter.BirdViewHolder> {
 
     Context context;
 
 
-    public BirdAdapter(@NonNull FirestoreRecyclerOptions<NearbyVariables> options, Context context) {
+    public Trips_RV_Adapter(@NonNull FirestoreRecyclerOptions<NearbyVariables> options, Context context) {
         super(options);
         this.context = context;
     }
@@ -33,6 +32,15 @@ public class BirdAdapter extends FirestoreRecyclerAdapter<NearbyVariables, BirdA
         holder.sci_name.setText(nearbyVariables.getSciName());
         holder.com_name.setText(nearbyVariables.getComName());
         holder.loc_name.setText(nearbyVariables.getLocName());
+
+        holder.cam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, CaptureImage.class);
+                intent.putExtra("birdName",nearbyVariables.getComName());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -45,14 +53,14 @@ public class BirdAdapter extends FirestoreRecyclerAdapter<NearbyVariables, BirdA
 
     class BirdViewHolder extends RecyclerView.ViewHolder{
         TextView sci_name, com_name, loc_name;
-
+        ImageView like,cam,share;
         public BirdViewHolder(@NonNull View itemView) {
             super(itemView);
             sci_name = itemView.findViewById(R.id.fav_specie);
             com_name = itemView.findViewById(R.id.fav_birdname);
             loc_name = itemView.findViewById(R.id.fav_birdLocation);
 
-
+            cam=itemView.findViewById(R.id.btn_camera_nearby);
         }
 
     }

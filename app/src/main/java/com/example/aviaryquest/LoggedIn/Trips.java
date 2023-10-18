@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.aviaryquest.BirdAdapter;
+import com.example.aviaryquest.Adapters.Trips_RV_Adapter;
 import com.example.aviaryquest.Data.Models.NearbyVariables;
 import com.example.aviaryquest.R;
 import com.example.aviaryquest.Utility;
@@ -20,7 +20,7 @@ import com.google.firebase.firestore.Query;
 public class Trips extends Fragment {
 
     RecyclerView recyclerView2;
-    BirdAdapter birdAdapter;
+    Trips_RV_Adapter tripsRVAdapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,25 +35,25 @@ public class Trips extends Fragment {
         FirestoreRecyclerOptions<NearbyVariables> options = new FirestoreRecyclerOptions.Builder<NearbyVariables>()
                 .setQuery(query, NearbyVariables.class).build();
         recyclerView2.setLayoutManager(new LinearLayoutManager(getContext()));
-        birdAdapter = new BirdAdapter(options, getContext());
-        recyclerView2.setAdapter(birdAdapter);
+        tripsRVAdapter = new Trips_RV_Adapter(options, getContext());
+        recyclerView2.setAdapter(tripsRVAdapter);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        birdAdapter.startListening();
+        tripsRVAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        birdAdapter.stopListening();
+        tripsRVAdapter.stopListening();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        birdAdapter.notifyDataSetChanged();
+        tripsRVAdapter.notifyDataSetChanged();
     }
 }

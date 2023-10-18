@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoggedIn.CaptureImage"
+    android:padding="10dp">
+
+    <Button
+        android:id="@+id/btn_savePic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"/>
+    <TextView
+        android:id="@+id/picName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/btn_savePic"
+        android:layout_above="@id/displayImage"/>
+
+    <ImageView
+        android:id="@+id/displayImage"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        tools:src="@drawable/ic_launcher_background"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/btn_savePic"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btn_capCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="50dp"
+            android:backgroundTint="@color/limeGreen"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="10dp"
+            android:layout_below="@id/displayImage">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/baseline_photo_camera_24"/>
+        </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_gallery"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/displayImage"
+        android:layout_alignBaseline="@id/btn_capCard"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/btn_capCard"
+        android:text="Gallery" />
+
+    <ProgressBar
+        android:id="@+id/camProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+</RelativeLayout>
