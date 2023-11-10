@@ -1,4 +1,4 @@
-package com.example.aviaryquest.AccessRequest;
+package com.example.aviaryquest.Utilities;
 
 import static androidx.core.content.ContextCompat.startActivity;
 

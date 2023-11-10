@@ -10,12 +10,8 @@
         android:title="Trips"
         android:icon="@drawable/outline_flag_24"/>
     <item
-        android:id="@+id/navItem_settings"
-        android:title="Settings"
-        android:icon="@drawable/outline_settings_24"/>
-    <item
-        android:id="@+id/navItem_account"
-        android:title="Account"
-        android:iconTint="@color/limeGreen"
-        android:icon="@drawable/outline_person_24"/>
+        android:id="@+id/navItem_hotspots"
+        android:title="Hotspots"
+        android:icon="@drawable/outline_location_on_24"
+        />
 </menu>

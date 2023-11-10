@@ -1,4 +1,4 @@
-package com.example.aviaryquest.Data;
+package com.example.aviaryquest.Utilities;
 
 import android.app.Activity;
 import android.app.AlertDialog;

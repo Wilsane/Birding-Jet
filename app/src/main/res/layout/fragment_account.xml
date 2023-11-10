@@ -3,25 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoggedIn.Account"
-    android:padding="8dp">
-
-    <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:id="@+id/img_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/round_exit_to_app_24"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/txt_logout"/>
+    tools:context=".LoggedIn.Account">
 
     <TextView
-        android:id="@+id/txt_logout"
-        android:layout_width="wrap_content"
+        android:id="@+id/acc_pageTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        android:textColor="#F60202"
-        android:textSize="18sp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"/>
+        android:text="Account"
+        android:background="@color/limeGreen"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:paddingVertical="3dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/acc_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/acc_pageTitle"
+        android:layout_marginTop="5dp"/>
 </RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/itm_acc"
+        android:title="Account"
+        android:icon="@drawable/blue_outline_account_circle_24"/>
+    <item
+        android:id="@+id/itm_settings"
+        android:title="Settings"
+        android:icon="@drawable/blue_outline_settings_24"
+        android:iconTint="@color/limeGreen"/>
+    <item
+        android:id="@+id/itm_help"
+        android:title="Guide"
+        android:icon="@drawable/outline_info_24"/>
+    <item
+        android:id="@+id/itm_logout"
+        android:title="Logout"
+        android:icon="@drawable/round_exit_to_app_24"/>
+</menu>

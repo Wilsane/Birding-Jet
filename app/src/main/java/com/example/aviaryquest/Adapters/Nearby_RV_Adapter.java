@@ -22,7 +22,14 @@ import com.example.aviaryquest.R;
 import com.example.aviaryquest.Utility;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -30,6 +37,7 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
 
     Context context;
     List<NearbyVariables> nearbyList;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("uploads");
 
     public Nearby_RV_Adapter(Context context, List<NearbyVariables> nearbyList) {
         this.context = context;
@@ -51,6 +59,23 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
         holder.SciName.setText(nearbyVariables.getSciName());
         holder.LocName.setText(nearbyVariables.getLocName());
 
+        Query query=databaseReference.orderByChild("name").equalTo(nearbyVariables.getComName());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    for (DataSnapshot snap:snapshot.getChildren()){
+                        String imageUrl=snap.child("imageUrl").getValue(String.class);
+                        Picasso.get().load(imageUrl).into(holder.bird_img);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         //When the share button is clicked
         holder.btn_nearbyShare.setOnClickListener(new View.OnClickListener() {
@@ -93,13 +118,14 @@ public class Nearby_RV_Adapter extends RecyclerView.Adapter<Nearby_RV_Adapter.vi
     public class viewHolder extends RecyclerView.ViewHolder{
         TextView ComName,SciName,LocName;
         Button btn_nearbyShare;
-        ImageView btn_nearbyLike;
+        ImageView btn_nearbyLike,bird_img;
         private Boolean isLiked = false;
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             ComName=itemView.findViewById(R.id.comName_nearby);
             SciName=itemView.findViewById(R.id.sciName_nearby);
             LocName=itemView.findViewById(R.id.loc_nearby);
+            bird_img=itemView.findViewById(R.id.img_nearby);
 
             btn_nearbyLike=itemView.findViewById(R.id.btn_like_nearby);
             btn_nearbyShare=itemView.findViewById(R.id.btn_share_nearby);

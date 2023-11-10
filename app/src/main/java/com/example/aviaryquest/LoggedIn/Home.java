@@ -32,38 +32,7 @@ public class Home extends Fragment {
         View view= inflater.inflate(R.layout.fragment_home, container, false);
 
         frameLayout=view.findViewById(R.id.home_frameLayout);
-        btn_nearby=view.findViewById(R.id.btn_nearby);
-        btn_hotspots=view.findViewById(R.id.btn_hotspots);
 
-        //When the nearby button is pressed
-        btn_nearby.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment=new Nearby();
-                SwitchFragments(fragment);
-
-                btn_nearby.setTextColor(getResources().getColor(R.color.white));
-                btn_nearby.setBackground(getResources().getDrawable(R.drawable.selected_home_top_navbar));
-                btn_hotspots.setBackground(getResources().getDrawable(R.drawable.not_selected_home_top_navbar));
-                btn_hotspots.setTextColor(getResources().getColor(R.color.limeGreen));
-            }
-        });
-
-        //When hotspots button is pressed
-        btn_hotspots.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragment=new Hotspots();
-                SwitchFragments(fragment);
-
-                btn_hotspots.setTextColor(getResources().getColor(R.color.white));
-                btn_hotspots.setBackground(getResources().getDrawable(R.drawable.selected_home_top_navbar));
-                btn_nearby.setBackground(getResources().getDrawable(R.drawable.not_selected_home_top_navbar));
-                btn_nearby.setTextColor(getResources().getColor(R.color.limeGreen));
-            }
-        });
-
-        //Default fragment
         SwitchFragments(new Nearby());
         return  view;
     }

@@ -3,19 +3,14 @@ package com.example.aviaryquest.LoggedIn;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
-import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.lifecycle.LifecycleOwner;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,7 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.aviaryquest.Data.Models.ImageVariables;
-import com.example.aviaryquest.Data.Msg;
+import com.example.aviaryquest.Utilities.Msg;
 import com.example.aviaryquest.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,8 +50,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 
 public class CaptureImage extends AppCompatActivity {
 

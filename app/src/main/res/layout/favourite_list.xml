@@ -21,11 +21,21 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/img_nearby"
+                android:id="@+id/img_fav"
                 android:layout_width="120dp"
                 android:layout_height="128dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/bird" />
+
+            <ImageView
+                android:id="@+id/btn_camera_nearby"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_toEndOf="@id/img_fav"
+                app:tint="@color/white"
+                android:src="@drawable/baseline_photo_camera_24"
+                android:layout_marginStart="-33dp"
+                android:layout_marginTop="5dp"/>
 
             <TextView
                 android:id="@+id/fav_birdname"
@@ -35,7 +45,7 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="3dp"
-                android:layout_toRightOf="@id/img_nearby"
+                android:layout_toRightOf="@id/img_fav"
                 android:maxLines="1"
                 android:text="Scientific Name"
                 android:textColor="@color/limeGreen"
@@ -48,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fav_birdname"
                 android:layout_marginLeft="3dp"
-                android:layout_toRightOf="@id/img_nearby"
+                android:layout_toRightOf="@id/img_fav"
                 android:maxLines="1"
                 android:text="Scientific Name" />
 
@@ -59,7 +69,7 @@
                 android:layout_below="@id/fav_specie"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
-                android:layout_toRightOf="@id/img_nearby"
+                android:layout_toRightOf="@id/img_fav"
                 app:cardCornerRadius="50dp">
 
                 <TextView
@@ -82,7 +92,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_below="@id/layout_loc_nearby"
-                android:layout_toRightOf="@id/img_nearby">
+                android:layout_toRightOf="@id/img_fav">
                 <ImageView
                     android:id="@+id/btn_like_nearby"
                     android:layout_width="30dp"
@@ -91,11 +101,11 @@
                     android:backgroundTint="#00FFFFFF"
                     android:src="@drawable/baseline_favorite_active" />
                 <ImageView
-                    android:id="@+id/btn_camera_nearby"
+                    android:id="@+id/btn_birdInfo_nearby"
                     android:layout_width="30dp"
                     android:layout_height="40dp"
                     android:layout_marginHorizontal="8dp"
-                    android:src="@drawable/baseline_photo_camera_24"/>
+                    android:src="@drawable/baseline_info_40"/>
                 <ImageView
                     android:id="@+id/btn_share_nearby"
                     android:layout_width="30dp"

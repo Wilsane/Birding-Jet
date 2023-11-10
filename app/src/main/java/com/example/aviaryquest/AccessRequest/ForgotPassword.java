@@ -15,13 +15,10 @@ import android.widget.Toast;
 
 import com.example.aviaryquest.MainActivity;
 import com.example.aviaryquest.R;
-import com.example.aviaryquest.SplashScreen;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.aviaryquest.Utilities.AccessUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.SignInMethodQueryResult;
 
 public class ForgotPassword extends AppCompatActivity {
 
