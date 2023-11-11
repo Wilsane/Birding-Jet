@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.example.aviaryquest.LoggedIn.HomeTasks.Hotspots;
 import com.example.aviaryquest.MainActivity;
 import com.example.aviaryquest.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
