@@ -273,6 +273,20 @@ public class Settings extends Fragment implements OnMapReadyCallback,
 
         }
 
+        // Calculate distance between two points
+        float[] results = new float[1];
+        Location.distanceBetween(polylineStartLatLng.latitude, polylineStartLatLng.longitude,
+                polylineEndLatLng.latitude, polylineEndLatLng.longitude, results);
+        double distanceInMeters = results[0];
+
+        // Convert distance to kilometers
+        double distanceInKilometers = distanceInMeters / 1000.0;
+
+        // Display the distance in the marker titles
+        Route selectedRoute = route.get(shortestRouteIndex);
+        String distanceText = String.format("%.2f km", distanceInKilometers);
+        String duration = selectedRoute.getDurationText();
+
         //Add Marker on route starting position
         MarkerOptions startMarker = new MarkerOptions();
         startMarker.position(polylineStartLatLng);
@@ -282,7 +296,7 @@ public class Settings extends Fragment implements OnMapReadyCallback,
         //Add Marker on route ending position
         MarkerOptions endMarker = new MarkerOptions();
         endMarker.position(polylineEndLatLng);
-        endMarker.title("Destination");
+        endMarker.title("Distance - " + distanceText + " - " + duration);
         mMap.addMarker(endMarker);
     }
 
