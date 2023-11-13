@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ public class Entry_Adapter extends FirestoreRecyclerAdapter<Entry, Entry_Adapter
         holder.locationTT.setText(entry.getLocation());
         holder.dateTT.setText(entry.getDate());
 
-        holder.itemView.setOnClickListener((v)->{
+        holder.dltBtn.setOnClickListener((v)->{
             String docId = this.getSnapshots().getSnapshot(position).getId();
 
             DocumentReference documentReference;
@@ -68,7 +69,7 @@ public class Entry_Adapter extends FirestoreRecyclerAdapter<Entry, Entry_Adapter
 
     class EntryViewHolder extends RecyclerView.ViewHolder {
         TextView titleTT, specieTT, locationTT, dateTT;
-
+        ImageButton dltBtn;
 
         public EntryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +77,7 @@ public class Entry_Adapter extends FirestoreRecyclerAdapter<Entry, Entry_Adapter
             specieTT = itemView.findViewById(R.id.entry_specie);
             locationTT = itemView.findViewById(R.id.entry_location);
             dateTT = itemView.findViewById(R.id.entry_date);
+            dltBtn = itemView.findViewById(R.id.delete_btn);
 
         }
     }
