@@ -14,4 +14,8 @@
         android:title="Hotspots"
         android:icon="@drawable/outline_location_on_24"
         />
+    <item
+        android:id="@+id/navItem_entryList"
+        android:icon="@drawable/baseline_list_24"
+        android:title="Entry" />
 </menu>

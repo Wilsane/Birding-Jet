@@ -11,4 +11,9 @@ public class Utility {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         return FirebaseFirestore.getInstance().collection("Observations").document(currentUser.getUid()).collection("my_observations");
     }
+
+    public static CollectionReference getCollectionReferenceForEntry(){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        return FirebaseFirestore.getInstance().collection("Entries").document(currentUser.getUid()).collection("my_diary");
+    }
 }

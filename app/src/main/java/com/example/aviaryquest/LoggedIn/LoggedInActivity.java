@@ -12,9 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 
-import com.example.aviaryquest.LoggedIn.HomeTasks.Hotspots;
 import com.example.aviaryquest.MainActivity;
 import com.example.aviaryquest.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -93,9 +91,13 @@ public class LoggedInActivity extends AppCompatActivity {
                 SwitchFragments(new Trips());//Redirect the user to the "trips" page
                 return true;
             } else if (itemId == R.id.navItem_hotspots) {
-                SwitchFragments(new Settings());//Redirect the user to the "Settings" page
+                SwitchFragments(new Settings());//Redirect the user to the "hotspot" page
+                return true;
+            } else if (itemId == R.id.navItem_entryList) {
+                SwitchFragments(new add());//Redirect the user to the "entry add" page
                 return true;
             }
+
             return  true;
         }
     };
