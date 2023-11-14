@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.aviaryquest.Data.Models.NearbyVariables;
 import com.example.aviaryquest.LoggedIn.CaptureImage;
+import com.example.aviaryquest.LoggedIn.info;
 import com.example.aviaryquest.R;
 import com.example.aviaryquest.Utility;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -81,6 +82,13 @@ public class Trips_RV_Adapter extends FirestoreRecyclerAdapter<NearbyVariables, 
             }
         });
 
+        holder.nearby_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, info.class);
+                context.startActivity(intent);
+            }
+        });
         Query query=databaseReference.orderByChild("name").equalTo(nearbyVariables.getComName());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -110,7 +118,7 @@ public class Trips_RV_Adapter extends FirestoreRecyclerAdapter<NearbyVariables, 
 
     class BirdViewHolder extends RecyclerView.ViewHolder{
         TextView sci_name, com_name, loc_name;
-        ImageView img, unlike;
+        ImageView img, unlike, nearby_info;
         ImageView like,cam,share;
         public BirdViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,6 +127,7 @@ public class Trips_RV_Adapter extends FirestoreRecyclerAdapter<NearbyVariables, 
             loc_name = itemView.findViewById(R.id.fav_birdLocation);
             img=itemView.findViewById(R.id.img_fav);
             unlike = itemView.findViewById(R.id.unlike_btn);
+            nearby_info = itemView.findViewById(R.id.btn_birdInfo_nearby);
 
 
             cam=itemView.findViewById(R.id.btn_camera_nearby);
